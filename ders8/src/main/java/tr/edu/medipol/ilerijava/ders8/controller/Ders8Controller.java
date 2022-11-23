@@ -54,10 +54,8 @@ public class Ders8Controller {
 
     @GetMapping("tumKullanicilariListele")
     public List<Kullanici> tumKullanicilariListele() {
-        Iterable<Kullanici> all = kullaniciRepository.findAll();
-        List<Kullanici> result = new ArrayList<Kullanici>();
-        all.forEach(result::add);
-        return result;
+        ArrayList<Kullanici> kullaniciListesi = (ArrayList<Kullanici>)kullaniciRepository.findAll();
+        return kullaniciListesi;
     }
 
 }
