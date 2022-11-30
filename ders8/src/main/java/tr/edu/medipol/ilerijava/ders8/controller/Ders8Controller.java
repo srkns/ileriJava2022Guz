@@ -37,13 +37,13 @@ public class Ders8Controller {
         return kullanici;
     }
 
-    @DeleteMapping("kullaniciSil")
+    @DeleteMapping("/kullaniciSil")
     public String kullaniciSil(Long id) {
         kullaniciRepository.deleteById(id);
         return "Kullanici silindi";
     }
 
-    @PutMapping("kullaniciGuncelle")
+    @PutMapping("/kullaniciGuncelle")
     public String kullaniciGuncelle(Long id, String ad) {
         Kullanici kullanici = kullaniciRepository.findById(id).get();
         String eskiKullaniciAdi = kullanici.getAd();
@@ -52,7 +52,7 @@ public class Ders8Controller {
         return "Kullanıcı adı güncellendi. Eski kullanıcı : " + eskiKullaniciAdi + " Yeni kullanıcı adı: " + kullanici.getAd();
     }
 
-    @GetMapping("tumKullanicilariListele")
+    @GetMapping("/tumKullanicilariListele")
     public List<Kullanici> tumKullanicilariListele() {
         ArrayList<Kullanici> kullaniciListesi = (ArrayList<Kullanici>)kullaniciRepository.findAll();
         return kullaniciListesi;
