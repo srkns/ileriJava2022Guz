@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ders 10 Web Sayfası</title>
+</head>
+<body>
+  <h3>Ders 10 Web</h3>
+  <div>
+    <h6>Kisi Listesi</h6>
+    <div>Kişileri listelemek için listele butonuna tıklayınız!</div>
+    <div id="kisiListesi">Kişi Listesi</div>
+    <input type="button" value="Kişileri Listele" onclick="kisileriYukle()"/>
+    <br>
+    <div>
+      <h6>Kişi Ekleme</h6>
+      <input type="text" id="ad" placeholder="Ad">
+      <input type="text" id="soyad" placeholder="Soyad">
+      <input type="number" id="yas" placeholder="Yaş">
+      <input type="button" value="Kişi Ekle" onclick="kisiEkle()"/>
+    </div>
+  </div>
+
+  <script type="application/javascript">
+    function kisiEkle() {
+      const parametreler = {
+        ad: document.getElementById("ad").value,
+        soyad: document.getElementById("soyad").value,
+        yas: document.getElementById("yas").value
+      }
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("POST", "http://localhost:8080/kullaniciOlustur", true);
+      httpRequest.setRequestHeader('Content-type', 'application/json');
+      httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+          alert("Kisi olusturma servisi cagirildi");
+        }
+      };
+      alert(parametreler);
+      alert("Dikkat! " + JSON.stringify(parametreler));
+      httpRequest.send(JSON.stringify(parametreler));
+    }
+    function kisileriYukle() {
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("GET", "http://localhost:8080/tumKullanicilariListele", true);
+      httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+          var kisiListesi = JSON.parse(httpRequest.response);
+          var tabloIlkKisim = "<table><tr><th>ID</th><th>AD</th><th>SOYAD</th><th>YAS</th></tr>";
+          var tabloVeriKismi = "";
+          for (var i = 0; i < kisiListesi.length; i++) {
+            tabloVeriKismi+= "<tr><td style='border: 1px solid'>"
+                    + kisiListesi[i].id + "</td><td style='border: 1px solid'>"
+                    + kisiListesi[i].ad + "</td><td style='border: 1px solid'>"
+                    + kisiListesi[i].soyad + "</td><td style='border: 1px solid'>"
+                    + kisiListesi[i].yas + "</td></tr>";
+          }
+
+          document.getElementById("kisiListesi").innerHTML = tabloIlkKisim + tabloVeriKismi + "</table>";
+        }
+      };
+      httpRequest.send();
+    }
+  </script>
+</body>
+</html>
