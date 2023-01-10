@@ -19,9 +19,38 @@
       <input type="number" id="yas" placeholder="Yaş">
       <input type="button" value="Kişi Ekle" onclick="kisiEkle()"/>
     </div>
+    <br>
+    <div>
+      <h6>Kişi Güncelle</h6>
+      <input type="number" id="id_guncelle" placeholder="Güncellenecek Kişi ID">
+      <input type="text" id="ad_guncelle" placeholder="Ad">
+      <input type="button" value="Kişi Güncelle" onclick="kisiGuncelle()"/>
+    </div>
+    <div>
+      <h6>Kişi Sil</h6>
+      <input type="text" id="id_sil" placeholder="Silinecek Kisi ID">
+      <input type="button" value="Kişi Sil" onclick="kisiSil()"/>
+    </div>
   </div>
 
   <script type="application/javascript">
+    function kisiSil() {
+
+    }
+    function kisiGuncelle() {
+      var id = document.getElementById("id_guncelle").value;
+      var ad = document.getElementById("ad_guncelle").value;
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("PUT", "http://localhost:8080/kullaniciGuncelle?id=" + id + "&ad=" + ad, true);
+      httpRequest.setRequestHeader('Content-type', 'application/json');
+      httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+          alert("Kisi güncelleme servisi cagirildi");
+        }
+      };
+      alert("Güncelleme için gönderilen veri: " + JSON.stringify(parametreler));
+      httpRequest.send();
+    }
     function kisiEkle() {
       const parametreler = {
         ad: document.getElementById("ad").value,
@@ -36,8 +65,7 @@
           alert("Kisi olusturma servisi cagirildi");
         }
       };
-      alert(parametreler);
-      alert("Dikkat! " + JSON.stringify(parametreler));
+      alert("Ekleme icin gönderilen veri: " + JSON.stringify(parametreler));
       httpRequest.send(JSON.stringify(parametreler));
     }
     function kisileriYukle() {
